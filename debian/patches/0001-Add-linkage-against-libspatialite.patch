@@ -1,0 +1,71 @@
+From: Romain Janvier <romain.janvier@hotmail.fr>
+Date: Sat, 11 Jan 2014 22:03:22 +0100
+Subject: Add linkage against libspatialite
+
+---
+ Makefile.am  | 6 ++++--
+ Makefile.in  | 4 ++--
+ configure.ac | 4 ++++
+ 3 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 1f2f9c6..b1af37e 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -1,7 +1,7 @@
+ ACLOCAL_AMFLAGS = -I m4
+ 
+ CXXFLAGS += @LIBSPATIALITE_CFLAGS@ #LIBRASTERLITA_CFLAGS@ \
+-	@LIBPNG_CFLAGS@ @LIBFREEXL_LIBS@
++	@LIBPNG_CFLAGS@ @LIBFREEXL_LIBS@ @LIBSQLITE_FLAGS@
+ 
+ bin_PROGRAMS = spatialite_gis
+ 
+@@ -17,7 +17,9 @@ if MINGW
+ LDADD = @WX_LIBS@ @LIBSPATIALITE_LIBS@ @LIBRASTERLITE_LIBS@ @LIBFREEXL_LIBS@ \
+ 	-lgdiplus
+ else
+-LDADD = @WX_LIBS@ @LIBSPATIALITE_LIBS@ @LIBRASTERLITE_LIBS@ @LIBFREEXL_LIBS@
++LDADD = @WX_LIBS@ @LIBSPATIALITE_LIBS@ @LIBRASTERLITE_LIBS@ \
++		@LIBFREEXL_LIBS@ @LIBSQLITE_LIBS@
++
+ endif
+ 
+ EXTRA_DIST = Makefile-static-MinGW \
+diff --git a/Makefile.in b/Makefile.in
+index 0228523..041fb2b 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -151,7 +151,7 @@ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+ CXXFLAGS = @CXXFLAGS@ @LIBSPATIALITE_CFLAGS@ #LIBRASTERLITA_CFLAGS@ \
+-	@LIBPNG_CFLAGS@ @LIBFREEXL_LIBS@ $(am__empty)
++	@LIBPNG_CFLAGS@ @LIBFREEXL_LIBS@ @LIBPATIALITE_CFLAGS@ $(am__empty)
+ CYGPATH_W = @CYGPATH_W@
+ DEFS = @DEFS@
+ DEPDIR = @DEPDIR@
+@@ -275,7 +275,7 @@ spatialite_gis_SOURCES = Bitmaps.cpp Classdef.h ClassifyDlgs.cpp \
+ 	Objects.cpp OutputMap.cpp Shapefiles.cpp SqlHelpers.cpp \
+ 	TableDialogs.cpp
+ 
+-@MINGW_FALSE@LDADD = @WX_LIBS@ @LIBSPATIALITE_LIBS@ @LIBRASTERLITE_LIBS@ @LIBFREEXL_LIBS@
++@MINGW_FALSE@LDADD = @WX_LIBS@ @LIBSPATIALITE_LIBS@ @LIBRASTERLITE_LIBS@ @LIBFREEXL_LIBS@ @LIBSQLITE_LIBS@
+ @MINGW_TRUE@LDADD = @WX_LIBS@ @LIBSPATIALITE_LIBS@ @LIBRASTERLITE_LIBS@ @LIBFREEXL_LIBS@ \
+ @MINGW_TRUE@	-lgdiplus
+ 
+diff --git a/configure.ac b/configure.ac
+index 9faa9db..2405e42 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -87,6 +87,10 @@ PKG_CHECK_MODULES([LIBSPATIALITE], [spatialite], , AC_MSG_ERROR(['libspatialite'
+ AC_SUBST(LIBSPATIALITE_CFLAGS)
+ AC_SUBST(LIBSPATIALITE_LIBS)
+ 
++PKG_CHECK_MODULES([LIBSQLITE], [sqlite3], , AC_MSG_ERROR(['libsqlite3' is required but it doesn't seem to be installed on this system.]))
++AC_SUBST(LIBSQLITE_CFLAGS)
++AC_SUBST(LIBSQLITE_LIBS)
++
+ PKG_CHECK_MODULES([LIBRASTERLITE], [rasterlite], , AC_MSG_ERROR(['librasterlite' is required but it doesn't seem to be installed on this system.]))
+ AC_SUBST(LIBRASTERLITE_CFLAGS)
+ AC_SUBST(LIBRASTERLITE_LIBS)
