@@ -5,4 +5,12 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@  --with autotools-dev
+	dh $@  --with autotools-dev --with autoreconf
+	
+override_dh_autoreconf:
+	touch NEWS README AUTHORS ChangeLog
+	dh_autoreconf
+
+override_dh_autoreconf_clean:
+	rm -f NEWS README AUTHORS ChangeLog
+	dh_autoreconf_clean
