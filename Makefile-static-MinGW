@@ -1,0 +1,90 @@
+# SandroFurieri (c) 2009
+# Makefile ( Mingw & wxwidgets) for spatialite-GIS
+
+SRC = Main.cpp LayerTree.cpp MapView.cpp Dialogs.cpp Bitmaps.cpp Objects.cpp \
+	SqlHelpers.cpp GraphicsDlgs.cpp ClassifyDlgs.cpp MetadataInit.cpp \
+	Shapefiles.cpp TableDialogs.cpp MapDynamic.cpp Network.cpp \
+	OutputMap.cpp \
+	win_resource/resource.rc
+OBJ = Main.o LayerTree.o MapView.o Dialogs.o Bitmaps.o Objects.o SqlHelpers.o \
+	GraphicsDlgs.o ClassifyDlgs.o MetadataInit.o Shapefiles.o \
+	TableDialogs.o MapDynamic.o Network.o OutputMap.o \
+	win_resource/resource.o 
+EXE = ./static_bin/spatialite_gis.exe
+INCLUDE = Classdef.h 
+
+# Define default flags:
+CXXFLAGS = $(shell wx-config --cxxflags) 
+LIB = -Wl,--subsystem,windows -mwindows /usr/local/lib/libwx_mswu-2.8.a \
+	-lrpcrt4 -loleaut32 -lole32 -luuid -lwinspool -lwinmm \
+	-lshell32 -lcomctl32 -lcomdlg32 -lctl3d32 -ladvapi32 -lwsock32 -lgdi32 
+EXTRAFLAGS = -Wall -Wextra -Wno-ctor-dtor-privacy \
+	-fno-strict-aliasing -I/usr/local/include -D_LARGE_FILE=1 \
+	-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE=1 -DSPATIALITE_AMALGAMATION=1
+REZ = $(shell wx-config --rescomp)
+EXTRALIBS = /usr/local/lib/libspatialite.a /usr/local/lib/libgeos_c.a \
+	/usr/local/lib/libiconv.a /usr/local/lib/libgeos.a \
+	/usr/local/lib/libproj.a /usr/local/lib/librasterlite.a \
+	/usr/local/lib/libgeotiff.a /usr/local/lib/libtiff.a \
+	/usr/local/lib/libhpdf.a /usr/local/lib/libjpeg.a \
+	/usr/local/lib/libpng.a /usr/local/lib/libz.a \
+	/usr/local/lib/libfreexl.a /usr/local/lib/libiconv.a 
+EXTRALIB2 = -lgdiplus
+
+all: $(EXE)
+
+$(EXE): $(OBJ) $(EXTRALIBS)
+	$(CXX) $(OBJ) -o $(EXE) $(LIB) $(EXTRALIBS) $(EXTRALIB2) \
+	-static-libstdc++ -static-libgcc
+	strip --strip-all  $(EXE)
+
+clean :
+	$(RM) $(OBJ) $(EXE)
+	
+Main.o: Main.cpp $(INCLUDE)
+	$(CXX) -c Main.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+LayerTree.o: LayerTree.cpp $(INCLUDE)
+	$(CXX) -c LayerTree.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+MapView.o: MapView.cpp $(INCLUDE)
+	$(CXX) -c MapView.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+MapDynamic.o: MapDynamic.cpp $(INCLUDE)
+	$(CXX) -c MapDynamic.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Dialogs.o: Dialogs.cpp $(INCLUDE)
+	$(CXX) -c Dialogs.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+GraphicsDlgs.o: GraphicsDlgs.cpp $(INCLUDE)
+	$(CXX) -c GraphicsDlgs.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+ClassifyDlgs.o: ClassifyDlgs.cpp $(INCLUDE)
+	$(CXX) -c ClassifyDlgs.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Bitmaps.o: Bitmaps.cpp $(INCLUDE)
+	$(CXX) -c Bitmaps.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Objects.o: Objects.cpp $(INCLUDE)
+	$(CXX) -c Objects.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+SqlHelpers.o: SqlHelpers.cpp $(INCLUDE)
+	$(CXX) -c SqlHelpers.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+MetadataInit.o: MetadataInit.cpp $(INCLUDE)
+	$(CXX) -c MetadataInit.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Shapefiles.o: Shapefiles.cpp $(INCLUDE)
+	$(CXX) -c Shapefiles.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+TableDialogs.o: TableDialogs.cpp $(INCLUDE)
+	$(CXX) -c TableDialogs.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Network.o: Network.cpp $(INCLUDE)
+	$(CXX) -c Network.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+OutputMap.o: OutputMap.cpp $(INCLUDE)
+	$(CXX) -c OutputMap.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+win_resource/resource.o: win_resource/resource.rc
+	$(REZ) -i win_resource/resource.rc -o win_resource/resource.o 

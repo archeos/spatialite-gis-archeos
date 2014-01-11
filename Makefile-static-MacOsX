@@ -1,0 +1,77 @@
+# SandroFurieri (c) 2009
+# Makefile ( MacOsX & wxwidgets) for spatialite-GIS
+
+SRC = Main.cpp LayerTree.cpp MapView.cpp Dialogs.cpp Bitmaps.cpp Objects.cpp \
+	SqlHelpers.cpp GraphicsDlgs.cpp ClassifyDlgs.cpp MetadataInit.cpp \
+	Shapefiles.cpp TableDialogs.cpp MapDynamic.cpp Network.cpp OutputMap.cpp 
+OBJ = Main.o LayerTree.o MapView.o Dialogs.o Bitmaps.o Objects.o SqlHelpers.o \
+	GraphicsDlgs.o ClassifyDlgs.o MetadataInit.o Shapefiles.o \
+	TableDialogs.o MapDynamic.o Network.o OutputMap.o
+EXE = ./static_bin/spatialite_gis
+INCLUDE = Classdef.h 
+
+# Define default flags:
+CXXFLAGS = $(shell wx-config --cxxflags) 
+LIB = $(shell wx-config --libs)
+EXTRAFLAGS = -Wall -Wextra -Wno-ctor-dtor-privacy \
+	-fno-strict-aliasing -I/usr/local/include -D_LARGE_FILE=1 \
+	-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE=1
+EXTRALIBS = /usr/local/lib/libspatialite.a /usr/local/lib/libgeos_c.a \
+	/usr/local/lib/libgeos.a /usr/local/lib/libproj.a \
+	/usr/local/lib/librasterlite.a /usr/local/lib/libgeotiff.a \
+	/usr/local/lib/libfreexl.a /usr/local/lib/libhpdf.a 
+EXTRALIB2 = -liconv
+
+all: $(EXE)
+
+$(EXE): $(OBJ) $(EXTRALIBS)
+	$(CXX) $(OBJ) -o $(EXE) $(LIB) $(EXTRALIBS) $(EXTRALIB2)
+	strip $(EXE)
+
+clean :
+	$(RM) $(OBJ) $(EXE)
+	
+Main.o: Main.cpp $(INCLUDE)
+	$(CXX) -c Main.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+LayerTree.o: LayerTree.cpp $(INCLUDE)
+	$(CXX) -c LayerTree.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+MapView.o: MapView.cpp $(INCLUDE)
+	$(CXX) -c MapView.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+MapDynamic.o: MapDynamic.cpp $(INCLUDE)
+	$(CXX) -c MapDynamic.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Dialogs.o: Dialogs.cpp $(INCLUDE)
+	$(CXX) -c Dialogs.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+GraphicsDlgs.o: GraphicsDlgs.cpp $(INCLUDE)
+	$(CXX) -c GraphicsDlgs.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+ClassifyDlgs.o: ClassifyDlgs.cpp $(INCLUDE)
+	$(CXX) -c ClassifyDlgs.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Bitmaps.o: Bitmaps.cpp $(INCLUDE)
+	$(CXX) -c Bitmaps.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Objects.o: Objects.cpp $(INCLUDE)
+	$(CXX) -c Objects.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+SqlHelpers.o: SqlHelpers.cpp $(INCLUDE)
+	$(CXX) -c SqlHelpers.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+MetadataInit.o: MetadataInit.cpp $(INCLUDE)
+	$(CXX) -c MetadataInit.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Shapefiles.o: Shapefiles.cpp $(INCLUDE)
+	$(CXX) -c Shapefiles.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+TableDialogs.o: TableDialogs.cpp $(INCLUDE)
+	$(CXX) -c TableDialogs.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+Network.o: Network.cpp $(INCLUDE)
+	$(CXX) -c Network.cpp $(CXXFLAGS) $(EXTRAFLAGS)
+
+OutputMap.o: OutputMap.cpp $(INCLUDE)
+	$(CXX) -c OutputMap.cpp $(CXXFLAGS) $(EXTRAFLAGS)

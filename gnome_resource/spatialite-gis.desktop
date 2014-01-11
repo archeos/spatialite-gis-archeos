@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Spatialite GIS
+GenericName=minimalistic GIS for Spatialite databases
+Comment=GIS tool based on Spatialite databases
+Exec=spatialite_gis
+Icon=spatialite-gis
+Terminal=false
+Type=Application
+Categories=Education;Geography;Science;
