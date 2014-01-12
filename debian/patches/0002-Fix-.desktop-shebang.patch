@@ -1,0 +1,17 @@
+From: Romain Janvier <romain.janvier@hotmail.fr>
+Date: Mon, 13 Jan 2014 14:46:51 +0100
+Subject: Fix .desktop shebang
+
+---
+ gnome_resource/spatialite-gis.desktop | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/gnome_resource/spatialite-gis.desktop b/gnome_resource/spatialite-gis.desktop
+index 657f336..3af36fd 100755
+--- a/gnome_resource/spatialite-gis.desktop
++++ b/gnome_resource/spatialite-gis.desktop
+@@ -1,4 +1,3 @@
+-#!/usr/bin/env xdg-open
+ [Desktop Entry]
+ Name=Spatialite GIS
+ GenericName=minimalistic GIS for Spatialite databases
